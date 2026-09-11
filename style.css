@@ -1,0 +1,626 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            #315bd4 0,
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #10052c,
+            #26086b,
+            #43158e
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   BACKGROUND SHAPES
+========================= */
+
+.shape {
+    position: fixed;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(1px);
+
+    opacity: 0.7;
+}
+
+.shape-one {
+    width: 320px;
+    height: 320px;
+
+    top: -150px;
+    left: -120px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #26b9ff,
+            #5744db
+        );
+}
+
+.shape-two {
+    width: 450px;
+    height: 450px;
+
+    right: -250px;
+    bottom: -200px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3a8cff,
+            #7025c9
+        );
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.stopwatch-container {
+    width: 90%;
+    max-width: 900px;
+
+    margin: auto;
+
+    padding: 70px 0;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+.heading {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.heading p {
+    color: #ffd84d;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+.heading h1 {
+    font-size: clamp(45px, 7vw, 70px);
+
+    line-height: 1;
+
+    margin-bottom: 12px;
+}
+
+.heading span {
+    color: #c7c1df;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   STOPWATCH CARD
+========================= */
+
+.stopwatch-card {
+    position: relative;
+
+    padding: 45px 35px;
+
+    border-radius: 25px;
+
+    text-align: center;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.15);
+
+    backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 25px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    color: #c9c4dd;
+}
+
+#statusDot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: #ffd84d;
+
+    box-shadow:
+        0 0 10px #ffd84d;
+
+    transition: 0.3s;
+}
+
+.status.running #statusDot {
+    background: #4cff8a;
+
+    box-shadow:
+        0 0 15px #4cff8a;
+
+    animation: pulse 1s infinite;
+}
+
+.status.paused #statusDot {
+    background: #ff9d42;
+
+    box-shadow:
+        0 0 15px #ff9d42;
+}
+
+@keyframes pulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.4);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================
+   TIME DISPLAY
+========================= */
+
+.time-display {
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: clamp(50px, 10vw, 95px);
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+
+    color: white;
+
+    text-shadow:
+        0 0 25px rgba(109, 180, 255, 0.3);
+
+    margin: 20px 0 35px;
+}
+
+.time-display small {
+    font-size: 0.45em;
+
+    color: #7fc9ff;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.controls {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    border: none;
+
+    padding: 13px 22px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s,
+        opacity 0.2s,
+        box-shadow 0.2s;
+}
+
+.control-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+}
+
+.control-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.control-btn:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+
+/* Start */
+
+.start {
+    background: #4cff8a;
+
+    color: #082719;
+
+    box-shadow:
+        0 8px 25px rgba(76, 255, 138, 0.2);
+}
+
+
+/* Pause */
+
+.pause {
+    background: #ffad55;
+
+    color: #351900;
+}
+
+
+/* Lap */
+
+.lap {
+    background: #67baff;
+
+    color: #071c31;
+}
+
+
+/* Reset */
+
+.reset {
+    background: #ff5d75;
+
+    color: white;
+}
+
+
+/* =========================
+   KEYBOARD INFO
+========================= */
+
+.keyboard-info {
+    margin-top: 30px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+    color: #aaa4c1;
+
+    font-size: 12px;
+}
+
+kbd {
+    padding: 4px 7px;
+
+    border-radius: 5px;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    color: white;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* =========================
+   LAPS SECTION
+========================= */
+
+.laps-section {
+    margin-top: 30px;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+.laps-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.laps-header h2 {
+    font-size: 22px;
+}
+
+#lapCount {
+    color: #ffd84d;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   EMPTY LAPS
+========================= */
+
+.empty-laps {
+    text-align: center;
+
+    padding: 35px 10px;
+
+    color: #a9a3bf;
+}
+
+.empty-icon {
+    font-size: 35px;
+
+    margin-bottom: 12px;
+
+    opacity: 0.6;
+}
+
+.empty-laps p {
+    color: white;
+
+    margin-bottom: 8px;
+}
+
+.empty-laps small {
+    font-size: 12px;
+}
+
+
+/* =========================
+   LAP ITEM
+========================= */
+
+.lap-item {
+    display: grid;
+
+    grid-template-columns:
+        70px 1fr 1fr 40px;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    animation: slideIn 0.3s ease;
+
+    transition: 0.2s;
+}
+
+.lap-item:hover {
+    background:
+        rgba(255, 255, 255, 0.12);
+}
+
+@keyframes slideIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.lap-number {
+    color: #ffd84d;
+
+    font-weight: bold;
+}
+
+.lap-total {
+    font-family: monospace;
+
+    font-size: 16px;
+}
+
+.lap-difference {
+    color: #7fc9ff;
+
+    font-family: monospace;
+}
+
+.delete-lap {
+    border: none;
+
+    background: transparent;
+
+    color: #ff6c80;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.delete-lap:hover {
+    color: white;
+
+    transform: scale(1.2);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+
+    padding-top: 30px;
+
+    color: #8f89a8;
+
+    font-size: 13px;
+}
+
+footer span {
+    color: #7fc9ff;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .stopwatch-container {
+        width: 92%;
+
+        padding:
+            45px 0;
+    }
+
+    .stopwatch-card {
+        padding:
+            35px 15px;
+    }
+
+    .time-display {
+        letter-spacing: 1px;
+    }
+
+    .control-btn {
+        width: 45%;
+
+        padding: 13px 10px;
+    }
+
+    .keyboard-info {
+        gap: 10px;
+
+        flex-direction: column;
+    }
+
+    .laps-section {
+        padding: 20px 15px;
+    }
+
+    .lap-item {
+        grid-template-columns:
+            50px 1fr 40px;
+    }
+
+    .lap-difference {
+        display: none;
+    }
+
+}
+
+@media (max-width: 400px) {
+
+    .control-btn {
+        width: 100%;
+    }
+
+    .heading h1 {
+        font-size: 45px;
+    }
+
+}
